@@ -1,0 +1,15 @@
+version: 2.1
+
+
+jobs:
+  hello:
+    machine:
+      image: ubuntu-2204:2022.07.01
+    steps:
+      - checkout
+      - run: echo hello world
+
+workflows:
+  workflow1:
+    jobs:
+      - hello
