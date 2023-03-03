@@ -3,8 +3,7 @@ version: 2.1
 
 jobs:
   hello:
-    machine:
-      image: ubuntu-2204:2022.07.01
+    machine: true
     steps:
       - checkout
       - run: echo hello world
