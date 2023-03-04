@@ -3,8 +3,8 @@ version: 2.1
 
 jobs:
   hello:
-    machine:
-      image: ubuntu-2004:current
+    docker:
+      - image: cimg/base:latest
     steps:
       - checkout
       - run: |
