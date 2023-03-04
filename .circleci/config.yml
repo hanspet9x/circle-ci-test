@@ -6,9 +6,14 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: echo hello world
+      - run: |
+         echo hello world;
+         echo $POSID;
+         echo $POSI
 
 workflows:
   workflow1:
     jobs:
-      - hello
+      - hello:
+          context:
+            - circeci-test
