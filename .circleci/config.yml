@@ -3,7 +3,8 @@ version: 2.1
 
 jobs:
   hello:
-    machine: true
+    machine:
+      image: ubuntu-2022:current
     steps:
       - checkout
       - run: |
