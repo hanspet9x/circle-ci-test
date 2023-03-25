@@ -1,20 +1,13 @@
 version: 2.1
 
-
 jobs:
-  hello:
+  build:
     docker:
       - image: cimg/base:2023.02
     steps:
       - checkout
-      - run: |
-         echo hello world;
-         echo $POSID;
-         echo $POSI
 
 workflows:
   workflow1:
     jobs:
-      - hello:
-          context:
-            - circeci-test
+      - build
