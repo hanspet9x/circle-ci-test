@@ -1,0 +1,107 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.1.0
+
+# the default pipeline parameters, which will be updated according to
+# the results of the path-filtering orb
+
+commands:
+  merge_mono_packs:
+    parameters:
+      filename:
+        type: string
+        default: c-package
+      monopath:
+        type: string
+    steps:
+      - run: cat yarn.lock << parameter.monopath >> > << parameter.filename >>
+parameters:
+  run-build-service-1-job:
+    type: boolean
+    default: false
+  run-build-service-2-job:
+    type: boolean
+    default: false
+  run-build-service-3-job:
+    type: boolean
+    default: false
+  run-build-service-4-job:
+    type: boolean
+    default: false
+
+
+jobs:
+  monoweb/build:
+    executors: node/default
+    enviroment:
+      NODE_ENV: << pipeline.git.branch >>
+      APP_ID: monoweb
+    steps:
+       - checkout
+       - node/install-packages:
+          pkg-manager: yarn
+       - merge_mono_packs:
+          filename: monoweb_lock
+          monopath: 
+       - restore_cache:
+          key: &deps monoweb-{{ checksum monoweb_lock }}
+       - run: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+       - store_cache:
+          key: *deps
+          paths:
+            - ~/.cache/yarn
+       - run:
+          name: building application
+          command: yarn build
+       - store_artifacts:
+          path: ./app/monoweb/dist
+  webapp:
+    executors: node/default
+    enviroment:
+      NODE_ENV: << pipeline.git.branch >>
+      APP_ID: monoweb
+    steps:
+      - run: echo "it is webapp"
+  middleware:
+    executors: node/default
+    enviroment:
+      NODE_ENV: << pipeline.git.branch >>
+      APP_ID: monoweb
+    steps:
+      - run: echo "it is webapp"
+  backend:
+    executors: node/default
+    enviroment:
+      NODE_ENV: << pipeline.git.branch >>
+      APP_ID: monoweb
+    steps:
+      - run: echo "it is webapp"
+
+
+
+
+# here we specify our workflows, most of which are conditionally
+# executed based upon pipeline parameter values. Each workflow calls a
+# specific job defined above, in the jobs section.
+workflows:
+  # when pipeline parameter, run-build-service-1-job is true, the
+  # build-service-1 job is triggered.
+  monoweb:
+    when: << pipeline.parameters.run-build-service-1-job >>
+    jobs:
+      - monoweb/build
+  # when pipeline parameter, run-build-service-2-job is true, the
+  # build-service-2 job is triggered.
+  webapp:
+    when: << pipeline.parameters.run-build-service-2-job >>
+    jobs:
+      - webapp
+  service-3:
+    when: << pipeline.parameters.run-build-service-3-job >>
+    jobs:
+      - middleware
+  service-4:
+    when: << pipeline.parameters.run-build-service-4-job >>
+    jobs:
+      - backend
