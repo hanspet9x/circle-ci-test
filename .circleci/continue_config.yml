@@ -32,7 +32,7 @@ parameters:
 
 
 jobs:
-  monoweb/build:
+  monoweb:
     executor: node/default
     environment:
       NODE_ENV: << pipeline.git.branch >>
@@ -94,7 +94,7 @@ workflows:
   monoweb:
     when: << pipeline.parameters.run-build-service-1-job >>
     jobs:
-      - monoweb/build
+      - monoweb
   # when pipeline parameter, run-build-service-2-job is true, the
   # build-service-2 job is triggered.
   webapp:
