@@ -1,0 +1,90 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.1.0
+
+# the default pipeline parameters, which will be updated according to
+# the results of the path-filtering orb
+
+parameters:
+  run-build-service-1-job:
+    type: boolean
+    default: false
+  run-build-service-2-job:
+    type: boolean
+    default: false
+  run-build-service-3-job:
+    type: boolean
+    default: false
+  run-build-service-4-job:
+    type: boolean
+    default: false
+
+
+jobs:
+  monoweb1:
+    executor: node/default
+    environment:
+      NODE_ENV: << pipeline.git.branch >>
+      APP_ID: monoweb
+    steps:
+       - checkout
+       - node/install-packages:
+          pkg-manager: yarn
+       - run:
+          name: building application
+          command: |
+            yarn global add turbo
+            echo "building application ..."
+            turbo build --filter=monoweb
+       - store_artifacts:
+          path: ./app/monoweb/dist
+  webapp1:
+    executor: node/default
+    environment:
+      NODE_ENV: << pipeline.git.branch >>
+      APP_ID: monoweb
+    steps:
+      - run: echo "it is webapp"
+  middleware1:
+    executor: node/default
+    environment:
+      NODE_ENV: << pipeline.git.branch >>
+      APP_ID: monoweb
+    steps:
+      - run: echo "it is webapp"
+  backend1:
+    executor: node/default
+    environment:
+      NODE_ENV: << pipeline.git.branch >>
+      APP_ID: monoweb
+    steps:
+      - run: echo "it is webapp"
+
+
+
+
+# here we specify our workflows, most of which are conditionally
+# executed based upon pipeline parameter values. Each workflow calls a
+# specific job defined above, in the jobs section.
+workflows:
+  # when pipeline parameter, run-build-service-1-job is true, the
+  # build-service-1 job is triggered.
+  monoweb:
+    when: << pipeline.parameters.run-build-service-1-job >>
+    jobs:
+      - monoweb1
+  # when pipeline parameter, run-build-service-2-job is true, the
+  # build-service-2 job is triggered.
+  webapp:
+    when: << pipeline.parameters.run-build-service-2-job >>
+    jobs:
+      - webapp1
+  service-3:
+    when: << pipeline.parameters.run-build-service-3-job >>
+    jobs:
+      - middleware1
+  service-4:
+    when: << pipeline.parameters.run-build-service-4-job >>
+    jobs:
+      - backend1
