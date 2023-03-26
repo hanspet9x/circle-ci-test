@@ -46,14 +46,18 @@ jobs:
           monopath: 
        - restore_cache:
           key: &deps monoweb-{{ checksum monoweb_lock }}
-       - run: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+       - run: |
+          echo "installing file"
+          yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
        - store_cache:
           key: *deps
           paths:
             - ~/.cache/yarn
        - run:
           name: building application
-          command: yarn build
+          command: |
+            echo "building application ..."
+            yarn build
        - store_artifacts:
           path: ./app/monoweb/dist
   webapp:
