@@ -34,8 +34,9 @@ jobs:
        - run:
           name: building application
           command: |
+            yarn global add turbo
             echo "building application ..."
-            yarn build
+            turbo build --filter=monoweb
        - store_artifacts:
           path: ./app/monoweb/dist
   webapp:
