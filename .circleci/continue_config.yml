@@ -34,7 +34,7 @@ parameters:
 jobs:
   monoweb/build:
     executor: node/default
-    enviroment:
+    environment:
       NODE_ENV: << pipeline.git.branch >>
       APP_ID: monoweb
     steps:
@@ -62,21 +62,21 @@ jobs:
           path: ./app/monoweb/dist
   webapp:
     executor: node/default
-    enviroment:
+    environment:
       NODE_ENV: << pipeline.git.branch >>
       APP_ID: monoweb
     steps:
       - run: echo "it is webapp"
   middleware:
     executor: node/default
-    enviroment:
+    environment:
       NODE_ENV: << pipeline.git.branch >>
       APP_ID: monoweb
     steps:
       - run: echo "it is webapp"
   backend:
     executor: node/default
-    enviroment:
+    environment:
       NODE_ENV: << pipeline.git.branch >>
       APP_ID: monoweb
     steps:
