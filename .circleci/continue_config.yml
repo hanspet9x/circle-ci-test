@@ -6,16 +6,6 @@ orbs:
 # the default pipeline parameters, which will be updated according to
 # the results of the path-filtering orb
 
-commands:
-  merge_mono_packs:
-    parameters:
-      filename:
-        type: string
-        default: c-package
-      monopath:
-        type: string
-    steps:
-      - run: cat yarn.lock << parameter.monopath >> > << parameter.filename >>
 parameters:
   run-build-service-1-job:
     type: boolean
@@ -41,18 +31,6 @@ jobs:
        - checkout
        - node/install-packages:
           pkg-manager: yarn
-       - merge_mono_packs:
-          filename: monoweb_lock
-          monopath: 
-       - restore_cache:
-          key: &deps monoweb-{{ checksum monoweb_lock }}
-       - run: |
-          echo "installing file"
-          yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
-       - store_cache:
-          key: *deps
-          paths:
-            - ~/.cache/yarn
        - run:
           name: building application
           command: |
