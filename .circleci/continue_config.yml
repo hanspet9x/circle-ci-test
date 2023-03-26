@@ -22,7 +22,7 @@ parameters:
 
 
 jobs:
-  monoweb:
+  monoweb1:
     executor: node/default
     environment:
       NODE_ENV: << pipeline.git.branch >>
@@ -39,21 +39,21 @@ jobs:
             turbo build --filter=monoweb
        - store_artifacts:
           path: ./app/monoweb/dist
-  webapp:
+  webapp1:
     executor: node/default
     environment:
       NODE_ENV: << pipeline.git.branch >>
       APP_ID: monoweb
     steps:
       - run: echo "it is webapp"
-  middleware:
+  middleware1:
     executor: node/default
     environment:
       NODE_ENV: << pipeline.git.branch >>
       APP_ID: monoweb
     steps:
       - run: echo "it is webapp"
-  backend:
+  backend1:
     executor: node/default
     environment:
       NODE_ENV: << pipeline.git.branch >>
@@ -73,18 +73,18 @@ workflows:
   monoweb:
     when: << pipeline.parameters.run-build-service-1-job >>
     jobs:
-      - monoweb
+      - monoweb1
   # when pipeline parameter, run-build-service-2-job is true, the
   # build-service-2 job is triggered.
   webapp:
     when: << pipeline.parameters.run-build-service-2-job >>
     jobs:
-      - webapp
+      - webapp1
   service-3:
     when: << pipeline.parameters.run-build-service-3-job >>
     jobs:
-      - middleware
+      - middleware1
   service-4:
     when: << pipeline.parameters.run-build-service-4-job >>
     jobs:
-      - backend
+      - backend1

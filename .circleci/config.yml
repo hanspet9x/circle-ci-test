@@ -24,7 +24,7 @@ workflows:
             app/webapp/.* run-build-service-2-job true
             lib/middleware/.* run-build-service-3-job true
             services/backend/.* run-build-service-4-job true
-          base-revision: main
+          base-revision: << pipeline.git.branch >>
           # this is the path of the configuration we should trigger once
           # path filtering and pipeline parameter value updates are
           # complete. In this case, we are using the parent dynamic
