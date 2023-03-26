@@ -15,9 +15,11 @@ jobs:
          
          if [[ << pipeline.git.branch >> = "dev" ]]; then
           echo "it is dev o"
+          export NODE_ENV=development
          else
           echo << pipeline.git.branch >>
          fi
+         echo $NODE_ENV
 
 workflows:
   workflow1:
