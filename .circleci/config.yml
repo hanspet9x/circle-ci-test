@@ -1,12 +1,21 @@
 version: 2.1
 
-
+commands:
+  build:
+    parameters:
+      stage:
+        type: string
+        default: development
+    steps:
+      - run: |
+          echo << parameters.stage >>
 jobs:
   hello:
     docker:
       - image: cimg/base:2023.02
     steps:
-      - checkout
+      - build:
+          stage: << pipeline.git.branch >>
       - run: |
          echo << pipeline.git.branch >>
          echo hello world;
@@ -16,6 +25,7 @@ jobs:
 workflows:
   workflow1:
     jobs:
+
       - hello:
           context:
             - circeci-test
