@@ -19,10 +19,8 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "df:3d:1d:10:98:70:9f:39:7f:fb:00:38:21:eb:e9:1f"
-      - run: echo "46.101.26.184 $PB" >> ~/.ssh/known_hosts
-      - build:
-          stage: << pipeline.git.branch >>
       - run: |
+         scp -rpC madem/* circleci@46.101.26.184:~/livestock/madem
          echo << pipeline.git.branch >>
          echo hello world;
          echo $POSID;
