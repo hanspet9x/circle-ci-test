@@ -16,7 +16,9 @@ jobs:
       - image: cimg/base:2023.02
     steps:
       - checkout
-      - add_ssh_keys
+      - add_ssh_keys:
+          fingerprints:
+            - "df:3d:1d:10:98:70:9f:39:7f:fb:00:38:21:eb:e9:1f"
       - build:
           stage: << pipeline.git.branch >>
       - run: |
