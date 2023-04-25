@@ -9,7 +9,7 @@ commands:
     steps:
       - run: |
           NODE_ENV=${<< parameters.stage >>}
-          echo NODE_ENV
+          echo $NODE_ENV
 jobs:
   hello:
     docker:
