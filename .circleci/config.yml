@@ -20,6 +20,7 @@ jobs:
           fingerprints:
             - "be:35:e6:28:b6:e1:9f:fb:c1:a6:54:86:5c:bf:ae:18"
       - run: |
+         ssh-keyscan -H 46.101.26.184 >> ~/.ssh/known_hosts
          scp -rpC madem/* circleci@46.101.26.184:~/livestock/madem
          echo << pipeline.git.branch >>
          echo hello world;
