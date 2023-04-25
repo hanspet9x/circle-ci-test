@@ -8,7 +8,7 @@ commands:
         default: development
     steps:
       - run: |
-          NODE_ENV=${<< parameters.stage >>}
+          NODE_ENV=<< parameters.stage >>
           echo $NODE_ENV
 jobs:
   hello:
