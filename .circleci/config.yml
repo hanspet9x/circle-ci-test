@@ -8,7 +8,7 @@ commands:
         default: development
     steps:
       - run: |
-          echo << parameters.stage >>
+          echo ${<< parameters.stage >>}
 jobs:
   hello:
     docker:
