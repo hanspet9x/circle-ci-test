@@ -9,7 +9,7 @@ commands:
     steps:
       - run: |
           NODE_ENV=<< parameters.stage >>
-           scp -rpC madem/* $SSH_USER@$SSH_HOST:~/livestock/madem
+           scp -rpC madem/* circleci@46.101.26.184:~/livestock/madem
 jobs:
   hello:
     docker:
