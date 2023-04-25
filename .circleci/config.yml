@@ -8,6 +8,7 @@ jobs:
     steps:
       - checkout
       - run: |
+         echo << pipeline.git.branch >>
          echo hello world;
          echo $POSID;
          echo $POSI
